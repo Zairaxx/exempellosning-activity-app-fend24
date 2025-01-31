@@ -1,32 +1,35 @@
-const newActivity = async () => {
+//Local storage
 
-    //Hämta värdet
-    let participants = document.querySelector("[name='participants']:checked").value;
-    let type = document.querySelector("#activityType").value;
-    let free = document.querySelector("#free").checked;
-    //Create URL Params
+console.log(sessionStorage.getItem("active"));
 
-    let params = new URLSearchParams();
 
-    if(participants){
-        params.append("participants", participants)
-    }
-    if(type){
-        params.append("type", type)
-    }
-    if(free){
-        params.append("price", 0.0)
-    }
 
-    //Hämta en aktivitet - visa ut den i DOM:en
-    let response = await fetch(`https://bored.api.lewagon.com/api/activity?${params}`);
-    let activity = await response.json();
+if(localStorage.getItem("myObj")){
 
-    document.querySelector(".activity-container").innerHTML = `
-        <h2>${activity.activity}</h2>
-        <p>Participants: ${activity.participants}</p>
-        <p>Type: ${activity.type}</p>
-        <p>Price: ${activity.price}</p>
-    `
+    let obj = JSON.parse(localStorage.getItem("myObj"))
+
+    console.log(obj);
+
+    let greeting = document.createElement("h2");
+    greeting.textContent = ` Welcome ${obj.name} - ${obj.age}` 
+    document.body.append(greeting)
+} else {
+    console.log("No value found.")
 }
+
+document.querySelector("button").addEventListener("click", () => {
+
+    sessionStorage.setItem("active", true)
+
+})
+
+// JSON Stringify + parse - Hantera och lagra objekt med data
+
+let obj = {
+    name: "Brandon",
+    age: 30
+}
+
+localStorage.setItem("myObj", JSON.stringify(obj));
+//Session storage
 
